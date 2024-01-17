@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Splines;
-using UnityEngine.UIElements;
 
 public class HouseFence : MonoBehaviour
 {
+    [SerializeField] private FenceLandcapeFit _fencelandscapeFit;
     [SerializeField] private FenceBounds _fenceBounds;
     [SerializeField] private float _fenceHeight = 2f;
     [SerializeField] private SplineContainer _fenceSpline;
@@ -15,22 +15,16 @@ public class HouseFence : MonoBehaviour
         try
         {
             _fenceBounds.CalculateFenceBounds();
+            ConstructFenceSplineCorners();
             CacheSplineKnotsPositions();
 
-            ConstructFenceSplineCorners();
-            //PlaceFence();
+            PlaceFence();
         }
         catch (System.Exception e)
         {
-
             Debug.Log(e.Message);
         }
     }
-
-   
-
-    private void CacheSplineKnotsPositions() => 
-        _fenceKnots = _fenceSpline.Spline.ToArray();
     
     private void ConstructFenceSplineCorners()
     {
@@ -39,9 +33,9 @@ public class HouseFence : MonoBehaviour
         AddSplineKnotAt(_fenceBounds.RightBottomAnchor);
         AddSplineKnotAt(_fenceBounds.RightTopAnchor);
     }
-
     private void AddSplineKnotAt(Vector3 position)
     {
+        //Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         invertedPosition.y = 0;
         invertedPosition.y += _fenceHeight;
@@ -53,13 +47,12 @@ public class HouseFence : MonoBehaviour
 
         _fenceSpline.Spline.Add(knot);
     }
+    private void CacheSplineKnotsPositions() =>
+       _fenceKnots = _fenceSpline.Spline.ToArray();
 
     private void PlaceFence()
     {
-        for (int i = 0; i < _fenceKnots.Length; i++)
-        {
-            Debug.Log($"_fenceKnots[i].Position = {_fenceKnots[i].Position}");
-            Debug.Log($"_fenceSpline.Spline.ToArray()[i] = {_fenceSpline.Spline.ToArray()[i].Position}");
-        }
+        BezierKnot[] fittedKnots = _fencelandscapeFit.FitGround(_fenceKnots, _fenceHeight);
+        _fenceSpline.Spline.Knots = fittedKnots;
     }
 }

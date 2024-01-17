@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8107216861920457040}
+  - component: {fileID: 6924372572104646894}
   m_Layer: 0
   m_Name: Birch
   m_TagString: Untagged
@@ -32,6 +33,19 @@ Transform:
   - {fileID: 3708256733715131033}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6924372572104646894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3606115155495688283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8a364a374c3164587e959cdf5a276f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 9021679351388225556}
 --- !u!1001 &3818180190575988082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50,7 +64,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -80,6 +94,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6498912737835425938, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2188127320461949721, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2188127320461949721, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -87,6 +109,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
       propertyPath: m_Name
       value: e-birch6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4081420626069593194, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -96,13 +122,48 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7f310f76ff67f0c408f387604a0a00c2, type: 2}
+    - target: {fileID: 7279761983285602304, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7279761983285602304, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9021679351388225556}
   m_SourcePrefab: {fileID: 100100000, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
 --- !u!4 &3708256733715131033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
   m_PrefabInstance: {fileID: 3818180190575988082}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5907049612716713330 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7279761983285602304, guid: 5047d461b4a9b384cb51ecc22a1fb86e, type: 3}
+  m_PrefabInstance: {fileID: 3818180190575988082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &9021679351388225556
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907049612716713330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.010405816
+  m_Height: 0.061735325
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.0007161176, z: 0.030527348}
