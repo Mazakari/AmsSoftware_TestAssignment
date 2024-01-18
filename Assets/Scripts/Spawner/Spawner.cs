@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -6,11 +7,14 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject _housePrefab;
     [SerializeField] private GameObject _treePrefab;
 
+
     [Space(10)]
     [Header("View Control")]
     private Camera _camera;
     [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private LayerMask _obstaclesLayers;
+
+    public static event Action OnSpawnPointBlockedEvent;
 
     private void OnEnable() => 
         SubscribeSpawnCallbacks();
@@ -35,6 +39,7 @@ public class Spawner : MonoBehaviour
     private void Spawn(GameObject prefab)
     {
         Vector3 spawnPoint = GetRandomSpawnPoint();
+        spawnPoint.y = 0;
 
         if (SpawnPointObscured(spawnPoint)) return;
 
@@ -59,8 +64,8 @@ public class Spawner : MonoBehaviour
     private Vector2 GetRandomScreenPoint(int screenWitdth, int screenHeight)
     {
         Vector2 value = Vector2.zero;
-        value.x = Random.Range(0, screenWitdth);
-        value.y = Random.Range(0, screenHeight);
+        value.x = UnityEngine.Random.Range(0, screenWitdth);
+        value.y = UnityEngine.Random.Range(0, screenHeight);
 
         return value;
     }
@@ -71,12 +76,13 @@ public class Spawner : MonoBehaviour
         float checkRadius = 5f;
 
         Collider[] collisions = new Collider[1];
-        int hitColliders = Physics.OverlapSphereNonAlloc(point, checkRadius, collisions);
+        int hitColliders = Physics.OverlapSphereNonAlloc(point, checkRadius, collisions, _obstaclesLayers);
 
         if (hitColliders > 0)
         {
             Debug.Log("Spawn point obscured");
             pointObscured = true;
+            OnSpawnPointBlockedEvent?.Invoke();
         }
 
         return pointObscured;
