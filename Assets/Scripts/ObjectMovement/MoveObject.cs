@@ -9,48 +9,26 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private bool _selected = false;
     private Vector3 _startingPos;
 
-    private void Start()
-    {
-        _selected = false;
-        _startingPos = transform.position;
-        _camera = Camera.main;
-    }
+    private void OnEnable() => 
+        SubscribeCameraCallbacks();
 
-    //private void Update()
-    //{
-    //    if (_selected)
-    //    {
-    //        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-    //        if (Physics.Raycast(ray, out RaycastHit hit))
-    //        {
-    //            transform.position = hit.point + Vector3.up * transform.localScale.y / 2;
-    //        }
-    //    }
-    //}
+    private void Start() => 
+        InitObject();
 
-    //public void SetSelected()
-    //{
-    //    _selected = !_selected;
+    private void OnDisable() => 
+        UnsubscribeCameraCallbacks();
+  
 
-    //    if (_selected == false)
-    //    {
-    //        if (Physics.CheckSphere(transform.position, transform.localScale.y / 2.1f))
-    //        {
-    //            transform.position = _startingPos;
-    //        }
-    //        else
-    //        {
-    //            _startingPos = transform.position;
-    //        }
-    //    }
-    //    _collider.enabled = !_collider.enabled;
-    //}
-    public void OnBeginDrag(PointerEventData eventData)
-    {
+    public void OnBeginDrag(PointerEventData eventData) => 
         _selected = true;
-    }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag(PointerEventData eventData) => 
+        DragObject();
+
+    public void OnEndDrag(PointerEventData eventData) => 
+        PlaceObject();
+
+    private void DragObject()
     {
         if (_selected)
         {
@@ -64,10 +42,10 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             }
         }
     }
-
-    public void OnEndDrag(PointerEventData eventData)
+    private void PlaceObject()
     {
         _selected = false;
+
         float checkRadius = _collider.bounds.size.magnitude / 2.5f;
         _collider.enabled = false;
 
@@ -85,4 +63,18 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         _collider.enabled = true;
     }
+
+    private void SwitchActiveCamera(Camera newActiveCamera) =>
+       _camera = newActiveCamera;
+
+    private void InitObject()
+    {
+        _selected = false;
+        _startingPos = transform.position;
+        _camera = Camera.main;
+    }
+    private void SubscribeCameraCallbacks() =>
+       CameraViewControl.OnCameraChangedEvent += SwitchActiveCamera;
+    private void UnsubscribeCameraCallbacks() =>
+      CameraViewControl.OnCameraChangedEvent -= SwitchActiveCamera;
 }
