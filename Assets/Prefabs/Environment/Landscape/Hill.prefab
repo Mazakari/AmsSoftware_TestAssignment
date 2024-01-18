@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2739678009508378667}
   - component: {fileID: 470625884751050303}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 6642603565422681763}
+  _obstaclesLayers:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1001 &7247036865687100147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,7 +119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -125,6 +128,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6642603565422681763}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6016297123000102043}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3698480357569589336}
   m_SourcePrefab: {fileID: 100100000, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
 --- !u!4 &7140488955376303384 stripped
 Transform:
@@ -158,3 +167,29 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: efbabb501d99e804cbdfa29b04dab222, type: 3}
+--- !u!114 &6016297123000102043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7517577001087903650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
+--- !u!114 &3698480357569589336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7517577001087903650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7049f26b0070b4a40addef5a5d408524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

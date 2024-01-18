@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CameraViewControl : MonoBehaviour
 {
+    public Camera ActiveCamera { get; private set; }
+
     [SerializeField] private Camera _firstPersonCamera;
     [SerializeField] private Camera _topDownCamera;
 
@@ -44,15 +46,17 @@ public class CameraViewControl : MonoBehaviour
             _firstPersonCamera.gameObject.SetActive(true);
             _topDownCamera.gameObject.SetActive(false);
 
-            OnCameraChangedEvent?.Invoke(_firstPersonCamera);
+            SetActiveCamera(_firstPersonCamera);
+            SendOnCameraChangeCallback(ActiveCamera);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
 
             Debug.Log(e.Message);
         }
 
     }
+
     private void Activate2D()
     {
         try
@@ -60,12 +64,19 @@ public class CameraViewControl : MonoBehaviour
             _firstPersonCamera.gameObject.SetActive(false);
             _topDownCamera.gameObject.SetActive(true);
 
-            OnCameraChangedEvent?.Invoke(_topDownCamera);
+            SetActiveCamera(_topDownCamera);
+            SendOnCameraChangeCallback(ActiveCamera);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
 
             Debug.Log(e.Message);
         }
     }
+
+    private void SetActiveCamera(Camera camera) =>
+       ActiveCamera = camera;
+
+    private void SendOnCameraChangeCallback(Camera camera) =>
+        OnCameraChangedEvent?.Invoke(camera);
 }

@@ -10,22 +10,27 @@ public class HouseFence : MonoBehaviour
 
     private BezierKnot[] _fenceKnots;
 
-    private void Start()
-    {
-        try
-        {
-            _fenceBounds.CalculateFenceBounds();
-            ConstructFenceSplineCorners();
-            CacheSplineKnotsPositions();
+    private void OnEnable() => 
+        SubscribeBuildFenceCallback();
 
-            PlaceFence();
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(e.Message);
-        }
+    private void OnDisable() => 
+        UnsubscribeBuildFenceCallback();
+
+    private void SubscribeBuildFenceCallback() =>
+       DesignSceneView.OnAddHouseFenceEvent += PlaceFence;
+    private void UnsubscribeBuildFenceCallback() =>
+        DesignSceneView.OnAddHouseFenceEvent -= PlaceFence;
+
+    private void PlaceFence()
+    {
+        _fenceBounds.CalculateFenceBounds();
+        ConstructFenceSplineCorners();
+        CacheSplineKnotsPositions();
+
+        BezierKnot[] fittedKnots = _fencelandscapeFit.FitGround(_fenceKnots, _fenceHeight);
+        _fenceSpline.Spline.Knots = fittedKnots;
     }
-    
+
     private void ConstructFenceSplineCorners()
     {
         AddSplineKnotAt(_fenceBounds.LeftTopAnchor);
@@ -49,10 +54,4 @@ public class HouseFence : MonoBehaviour
     }
     private void CacheSplineKnotsPositions() =>
        _fenceKnots = _fenceSpline.Spline.ToArray();
-
-    private void PlaceFence()
-    {
-        BezierKnot[] fittedKnots = _fencelandscapeFit.FitGround(_fenceKnots, _fenceHeight);
-        _fenceSpline.Spline.Knots = fittedKnots;
-    }
 }

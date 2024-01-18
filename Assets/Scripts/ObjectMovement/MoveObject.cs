@@ -4,13 +4,16 @@ using UnityEngine.EventSystems;
 public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private Collider _collider;
-
+    [SerializeField] private LayerMask _obstaclesLayers;
     private Camera _camera;
     private bool _selected = false;
     private Vector3 _startingPos;
 
-    private void OnEnable() => 
+    private void OnEnable()
+    {
+        CacheActiveCamera();
         SubscribeCameraCallbacks();
+    }
 
     private void Start() => 
         InitObject();
@@ -49,8 +52,8 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         float checkRadius = _collider.bounds.size.magnitude / 2.5f;
         _collider.enabled = false;
 
-        Collider[] collisions = new Collider[1];
-        int hitColliders = Physics.OverlapSphereNonAlloc(transform.position, checkRadius, collisions);
+        Collider[] collisions = new Collider[5];
+        int hitColliders = Physics.OverlapSphereNonAlloc(transform.position, checkRadius, collisions, _obstaclesLayers);
 
         if (hitColliders > 0)
         {
@@ -66,6 +69,8 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private void SwitchActiveCamera(Camera newActiveCamera) =>
        _camera = newActiveCamera;
+    private void CacheActiveCamera() =>
+      _camera = FindObjectOfType<Camera>();
 
     private void InitObject()
     {
