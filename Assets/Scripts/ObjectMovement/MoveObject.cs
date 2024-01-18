@@ -9,18 +9,9 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private bool _selected = false;
     private Vector3 _startingPos;
 
-    private void OnEnable()
-    {
-        CacheActiveCamera();
-        SubscribeCameraCallbacks();
-    }
-
     private void Start() => 
         InitObject();
 
-    private void OnDisable() => 
-        UnsubscribeCameraCallbacks();
-  
 
     public void OnBeginDrag(PointerEventData eventData) => 
         _selected = true;
@@ -67,19 +58,10 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         _collider.enabled = true;
     }
 
-    private void SwitchActiveCamera(Camera newActiveCamera) =>
-       _camera = newActiveCamera;
-    private void CacheActiveCamera() =>
-      _camera = FindObjectOfType<Camera>();
-
     private void InitObject()
     {
         _selected = false;
         _startingPos = transform.position;
         _camera = Camera.main;
     }
-    private void SubscribeCameraCallbacks() =>
-       CameraViewControl.OnCameraChangedEvent += SwitchActiveCamera;
-    private void UnsubscribeCameraCallbacks() =>
-      CameraViewControl.OnCameraChangedEvent -= SwitchActiveCamera;
 }

@@ -5,6 +5,7 @@ public class DesignSceneView : MonoBehaviour
 {
     public static event Action OnSwitchTo3DEvent;
     public static event Action OnSwitchTo2DEvent;
+
     public static event Action OnAddHouseEvent;
     public static event Action OnAddHouseFenceEvent;
     public static event Action OnAddTreeEvent;

@@ -8,12 +8,15 @@ public class Spawner : MonoBehaviour
 
     [Space(10)]
     [Header("View Control")]
-    [SerializeField] private CameraViewControl _cameraViewControl;
+    private Camera _camera;
     [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private LayerMask _obstaclesLayers;
 
     private void OnEnable() => 
         SubscribeSpawnCallbacks();
+
+    private void Start() => 
+        CacheCamera();
 
     private void OnDisable() => 
         UnsubscribeSpawnCallbacks();
@@ -43,7 +46,7 @@ public class Spawner : MonoBehaviour
         Vector3 randomPoint = Vector2.zero;
         Vector2 randomScreenPoint = GetRandomScreenPoint(Screen.width, Screen.height);
 
-        Ray ray = _cameraViewControl.ActiveCamera.ScreenPointToRay(randomScreenPoint);
+        Ray ray = _camera.ScreenPointToRay(randomScreenPoint);
 
         if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayerMask))
         {
@@ -78,6 +81,8 @@ public class Spawner : MonoBehaviour
 
         return pointObscured;
     }
+    private void CacheCamera() =>
+      _camera = Camera.main;
 
     private void SubscribeSpawnCallbacks()
     {
