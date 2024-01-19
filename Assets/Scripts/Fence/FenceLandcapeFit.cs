@@ -16,7 +16,7 @@ public class FenceLandcapeFit : MonoBehaviour
             fittedPosition = ScanGround(fittedPosition, fenceHeight);
             if (fittedPosition == Vector3.zero) continue;
          
-            fittedKnots[i].Position = fittedPosition;
+            fittedKnots[i].Position.y = fittedPosition.y;
         }
 
        return fittedKnots;
@@ -25,7 +25,8 @@ public class FenceLandcapeFit : MonoBehaviour
     private Vector3 ScanGround(Vector3 sourcePosition, float fenceHeight)
     {
         Vector3 groundPosition = Vector3.zero;
-        Ray ray = new(sourcePosition, Vector3.down);
+        Vector3 convertedPosition = transform.TransformPoint(sourcePosition);
+        Ray ray = new(convertedPosition, Vector3.down);
 
         if (Physics.Raycast(ray, out RaycastHit hit, _rayastDistance))
         {

@@ -28,6 +28,7 @@ public class FenceBounds : MonoBehaviour
 
     public void CalculateFenceBounds()
     {
+        // World space coords correct
         float houseColliderMinX = _houseCollider.bounds.min.x;
         float houseColliderMaxX = _houseCollider.bounds.max.x;
 
@@ -38,6 +39,7 @@ public class FenceBounds : MonoBehaviour
     }
     private void CalculateBounds(float houseColliderMinX, float houseColliderMaxX, float houseColliderMinZ, float houseColliderMaxZ)
     {
+        // World space coords correct
         float fenceBoundMinX = houseColliderMinX - _fenceToHouseOffset;
         float fenceBoundMaxX = houseColliderMaxX + _fenceToHouseOffset;
 
@@ -54,10 +56,19 @@ public class FenceBounds : MonoBehaviour
 
     private void SetCornerAnchors(float fenceBoundMinX, float fenceBoundMaxX, float fenceBoundMinZ, float fenceBoundMaxZ)
     {
+        
+        // World space coords correct
         LeftTopAnchor = new(fenceBoundMinX, 0, fenceBoundMaxZ);
         LeftBottomAnchor = new(fenceBoundMinX, 0, fenceBoundMinZ);
         RightTopAnchor = new(fenceBoundMaxX, 0, fenceBoundMaxZ);
         RightBottomAnchor = new(fenceBoundMaxX, 0, fenceBoundMinZ);
+    }
+
+    private Vector3 ConvertToWorldPosition(float minBound, float maxBound)
+    {
+        Vector3 worldPosition = new(minBound, 0, maxBound);
+        worldPosition = transform.TransformPoint(worldPosition);
+        return worldPosition;
     }
 
     private void SetTestAnchors(float fenceBoundMinX, float fenceBoundMaxX, float fenceBoundMinZ, float fenceBoundMaxZ)

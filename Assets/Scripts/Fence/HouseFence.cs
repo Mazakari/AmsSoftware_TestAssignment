@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -8,6 +9,9 @@ public class HouseFence : MonoBehaviour
     [SerializeField] private float _fenceHeight = 2f;
     [SerializeField] private SplineContainer _fenceSpline;
 
+    [Header("Fence Edge Settings")]
+    [SerializeField] private int _fenceEdgeSegments = 3;
+    private float _knotStep;
     private BezierKnot[] _fenceKnots;
 
     private void OnEnable() => 
@@ -23,6 +27,7 @@ public class HouseFence : MonoBehaviour
 
     private void PlaceFence()
     {
+        if (_fenceSpline.Spline.Knots.Count() > 0) return;
         _fenceBounds.CalculateFenceBounds();
         ConstructFenceSplineCorners();
         CacheSplineKnotsPositions();
@@ -33,14 +38,57 @@ public class HouseFence : MonoBehaviour
 
     private void ConstructFenceSplineCorners()
     {
-        AddSplineKnotAt(_fenceBounds.LeftTopAnchor);
-        AddSplineKnotAt(_fenceBounds.LeftBottomAnchor);
-        AddSplineKnotAt(_fenceBounds.RightBottomAnchor);
-        AddSplineKnotAt(_fenceBounds.RightTopAnchor);
+        CalculateKnotStep();
+
+        // Left edge
+        Vector3 currentKnotPosition = _fenceBounds.LeftTopAnchor;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.z -= _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.z -= _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        // Bottom edge
+        currentKnotPosition = _fenceBounds.LeftBottomAnchor;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.x += _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.x += _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        // Right edge
+        currentKnotPosition = _fenceBounds.RightBottomAnchor;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.z += _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.z += _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        // Top edge
+        currentKnotPosition = _fenceBounds.RightTopAnchor;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.x -= _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
+
+        currentKnotPosition.x -= _knotStep;
+        AddSplineKnotAt(currentKnotPosition);
     }
+
+    private void CalculateKnotStep()
+    {
+        float edgeLength = Mathf.Abs(_fenceBounds.LeftTopAnchor.z - _fenceBounds.LeftBottomAnchor.z);
+        _knotStep = edgeLength / _fenceEdgeSegments;
+    }
+
     private void AddSplineKnotAt(Vector3 position)
     {
-        //Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         invertedPosition.y = 0;
         invertedPosition.y += _fenceHeight;
