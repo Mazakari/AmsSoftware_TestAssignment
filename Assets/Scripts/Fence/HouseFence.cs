@@ -91,7 +91,7 @@ public class HouseFence : MonoBehaviour
     {
         Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         invertedPosition.y = 0;
-        invertedPosition.y += _fenceHeight;
+        invertedPosition.y += _fenceHeight/2;
 
         BezierKnot knot = new()
         {
