@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
     private void Spawn(GameObject prefab)
     {
         Vector3 spawnPoint = GetRandomSpawnPoint();
-        spawnPoint.y = 0;
+        spawnPoint.y = 0.1f;
 
         if (SpawnPointObscured(spawnPoint)) return;
 

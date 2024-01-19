@@ -3,7 +3,8 @@ using UnityEngine.EventSystems;
 
 public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private Collider _collider;
+    [SerializeField] private Collider _boundsCollider;
+    private Collider[] _ownColliders;
     [SerializeField] private LayerMask _obstaclesLayers;
     private Camera _camera;
     private bool _selected = false;
@@ -11,7 +12,6 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private void Start() => 
         InitObject();
-
 
     public void OnBeginDrag(PointerEventData eventData) => 
         _selected = true;
@@ -40,8 +40,9 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         _selected = false;
 
-        float checkRadius = _collider.bounds.size.magnitude / 2.5f;
-        _collider.enabled = false;
+        float checkRadius = _boundsCollider.bounds.size.magnitude;
+
+        DeactivateOwnColliders();
 
         Collider[] collisions = new Collider[5];
         int hitColliders = Physics.OverlapSphereNonAlloc(transform.position, checkRadius, collisions, _obstaclesLayers);
@@ -55,7 +56,27 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             _startingPos = transform.position;
         }
 
-        _collider.enabled = true;
+        ActivateOwnColliders();
+    }
+    private void DeactivateOwnColliders()
+    {
+        if (_ownColliders.Length > 0)
+        {
+            for (int i = 0; i < _ownColliders.Length; i++)
+            {
+                _ownColliders[i].enabled = false;
+            }
+        }
+    }
+    private void ActivateOwnColliders()
+    {
+        if (_ownColliders.Length > 0)
+        {
+            for (int i = 0; i < _ownColliders.Length; i++)
+            {
+                _ownColliders[i].enabled = true;
+            }
+        }
     }
 
     private void InitObject()
@@ -63,5 +84,7 @@ public class MoveObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         _selected = false;
         _startingPos = transform.position;
         _camera = Camera.main;
+
+        _ownColliders = GetComponentsInChildren<Collider>();
     }
 }

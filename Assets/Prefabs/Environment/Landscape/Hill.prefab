@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8a364a374c3164587e959cdf5a276f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 6642603565422681763}
+  _boundsCollider: {fileID: 6642603565422681763}
   _obstaclesLayers:
     serializedVersion: 2
     m_Bits: 128
