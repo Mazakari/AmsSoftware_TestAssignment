@@ -13,6 +13,7 @@ public class HouseFence : MonoBehaviour
     [SerializeField] private int _fenceEdgeSegments = 3;
     private float _knotStep;
     private BezierKnot[] _fenceKnots;
+    
 
     private void OnEnable() => 
         SubscribeBuildFenceCallback();
@@ -91,15 +92,15 @@ public class HouseFence : MonoBehaviour
     {
         Vector3 invertedPosition = _fenceSpline.transform.InverseTransformPoint(position);
         invertedPosition.y = 0;
-        invertedPosition.y += _fenceHeight/2;
+        invertedPosition.y += _fenceHeight;
 
         BezierKnot knot = new()
         {
             Position = invertedPosition
         };
-
+         
         _fenceSpline.Spline.Add(knot);
     }
-    private void CacheSplineKnotsPositions() =>
-       _fenceKnots = _fenceSpline.Spline.ToArray();
+    private void CacheSplineKnotsPositions() => 
+        _fenceKnots = _fenceSpline.Spline.ToArray();
 }

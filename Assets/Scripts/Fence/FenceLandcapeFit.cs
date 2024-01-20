@@ -13,19 +13,21 @@ public class FenceLandcapeFit : MonoBehaviour
         {
             fittedPosition = fittedKnots[i].Position;
             
-            fittedPosition = ScanGround(fittedPosition, fenceHeight);
+            fittedPosition = ScanGround(fittedPosition);
             if (fittedPosition == Vector3.zero) continue;
-         
+
             fittedKnots[i].Position.y = fittedPosition.y;
         }
 
-       return fittedKnots;
+        return fittedKnots;
     }
 
-    private Vector3 ScanGround(Vector3 sourcePosition, float fenceHeight)
+    private Vector3 ScanGround(Vector3 sourcePosition)
     {
         Vector3 groundPosition = Vector3.zero;
         Vector3 convertedPosition = transform.TransformPoint(sourcePosition);
+        convertedPosition.y = sourcePosition.y + 5;
+
         Ray ray = new(convertedPosition, Vector3.down);
 
         if (Physics.Raycast(ray, out RaycastHit hit, _rayastDistance))
